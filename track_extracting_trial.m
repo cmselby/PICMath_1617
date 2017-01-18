@@ -1,14 +1,15 @@
 function res=track_extracting_trial(d)
 %function res=track_extracting_trial(d)
 %Export a matrix res which contain location and time of tracks
-d='ROF_CODAR_20160502_4350_ch0.mat'
+d='ROF_CODAR_20160502_4350_ch0.mat';
 
-load(d)
+load(d);
 k=ones(size(rngmap));
-denomap = zeros(size(rngmap));
 
-for i = 1: size(denomap,1)
-    for j = 1: size(denomap,2)
+%Simple moving average denoising
+denomap = zeros(size(rngmap));
+for i = 1: size(denomap,1);
+    for j = 1: size(denomap,2);
         if j<size(denomap,2)-1
             denomap(i,j) = (rngmap(i,j)+rngmap(i,j+1)+rngmap(i,j+2))/3;
         else
@@ -17,13 +18,21 @@ for i = 1: size(denomap,1)
     end
 end
 
+A=denomap.';
+[value,pos]=min(var(A));
+thresholding=mean(A(pos));
 
-for i = 1: size(rngmap,1)
-    for j = 1: size(rngmap,2)
-        if denomap(i,j)<-111
+for i = 1: size(rngmap,1);
+    for j = 1: size(rngmap,2);
+        if denomap(i,j)<thresholding;
             k(i,j)=0;
         end
     end
 end
 res=k;
-imshow(k)
+figure;
+imshow(k);
+% figure;
+% imagesc(denomap);
+% figure;
+% imagesc(rngmap);
