@@ -1,8 +1,10 @@
 function res=track_extracting_trial(d)
 %function res=track_extracting_trial(d)
 %Export a matrix res which contain location and time of tracks
-d='ROF_CODAR_20160502_4350_ch0.mat';
 
+min(find(rngmap(size(rngmap,1),:)< mean(rngmap(size(rngmap,1),:))))%The number of column when night starts
+
+d='ROF_CODAR_20160502_4350_ch0.mat';
 load(d);
 k=ones(size(rngmap));
 
