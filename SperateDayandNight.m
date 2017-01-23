@@ -6,6 +6,9 @@ load(d);
 time=min(find(rngmap(size(rngmap,1),:)< mean(rngmap(size(rngmap,1),:))));%The number of column when night starts
 day_rngmap=rngmap(1:size(rngmap,1),1:time);
 night_rngmap=rngmap(1:size(rngmap,1),time:size(rngmap,2));
+
+gray_day_rngmap=mat2gray(day_rngmap);
+gray_night_rngmap=mat2gray(night_rngmap);
 % figure;
 % imagesc(day_rngmap);
 % figure;
