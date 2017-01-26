@@ -13,7 +13,7 @@ thresholding=mean(A(pos));
 
 for i = 1: size(rngmap,1);
     for j = 1: size(rngmap,2);
-        if denomap(i,j)<thresholding+3;
+        if denomap(i,j)<thresholding+4;
             k(i,j)=0;
         end
     end

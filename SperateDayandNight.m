@@ -7,9 +7,33 @@ time=min(find(rngmap(size(rngmap,1),:)< mean(rngmap(size(rngmap,1),:))));%The nu
 day_rngmap=rngmap(1:size(rngmap,1),1:time);
 night_rngmap=rngmap(1:size(rngmap,1),time:size(rngmap,2));
 
-gray_day_rngmap=mat2gray(day_rngmap);
-gray_night_rngmap=mat2gray(night_rngmap);
-% figure;
-% imagesc(day_rngmap);
-% figure;
-% imagesc(night_rngmap);
+figure;
+title('Day Map');
+set(0,'DefaultFigureColormap',feval('gray'));
+imagesc(day_rngmap);
+
+figure;
+title('Night Map');
+set(0,'DefaultFigureColormap',feval('gray'));
+imagesc(night_rngmap);
+
+sobelGradient = imgradient(day_rngmap);
+figure
+imshow(sobelGradient,[])
+title('Sobel Gradient Magnitude')
+
+hy = -fspecial('sobel')
+hx = hy'
+
+sigma = 2;
+smoothImage = imgaussfilt(day_rngmap,sigma);
+smoothGradient = imgradient(smoothImage,'CentralDifference');
+
+figure
+imshow(smoothGradient,[])
+title('Smoothed Gradient Magnitude')
+
+B = 1/10*ones(10,1);
+out = filter(B,1,smoothGradient);
+figure 
+imagesc(out);
