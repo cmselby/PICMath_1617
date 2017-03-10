@@ -1,4 +1,4 @@
-function [gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap]=SperateDayandNight(displayoption,dusktime,dawntime,data)
+function [gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap,day_rngmap,night_rngmap,dawn_rngmap]=SperateDayandNight(displayoption,dusktime,dawntime,data)
 %function [gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap]=SperateDayandNight(displayoption,dusktime,dawntime,data)
 %Seperate the original data into 3 parts: day, night and dawn
 %Then return gray scale of whole data and day, night and dawn part of data

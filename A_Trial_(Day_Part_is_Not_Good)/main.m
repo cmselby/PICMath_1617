@@ -6,7 +6,7 @@ load(d);
 k = zeros(size(rngmap));
 time1 = 620;%When evening starts
 time2 = 1380;%When morning starts
-[gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap]=SperateDayandNight(0,time1,time2,d);
+[gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap,day_rngmap,night_rngmap,dawn_rngmap]=SperateDayandNight(0,time1,time2,d);
 
 %Day
 [k_day]=TrackExtraction(0,1,d,time1,time2);
