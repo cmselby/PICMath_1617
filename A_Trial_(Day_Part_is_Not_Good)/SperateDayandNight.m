@@ -50,21 +50,21 @@ gray_dawn_rngmap=mat2gray(dawn_rngmap);
 
 if display == 1
     figure;
-    imagesc(gray_day_rngmap);
+    imshow(gray_day_rngmap);
     set(gca,'YDir','norm'); 
     title('Day part');
 end
 
 if display == 2
     figure;
-    imagesc(gray_night_rngmap);
+    imshow(gray_night_rngmap);
     set(gca,'YDir','norm'); 
     title('Night part');
 end
 
 if display == 3
     figure;
-    imagesc(gray_dawn_rngmap);
+    imshow(gray_dawn_rngmap);
     set(gca,'YDir','norm'); 
     title('Dawn part');
 end

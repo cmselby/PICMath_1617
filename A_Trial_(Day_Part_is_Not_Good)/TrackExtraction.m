@@ -74,8 +74,7 @@ else
 end
 
 %Find the thresholding value
-denomap = map;
-A=denomap.';
+A=map.';
 [value,pos] = max(var(A));
 thresholding = mean(mean(A(:,pos-2:pos+2)));
 
@@ -109,31 +108,6 @@ if display == 1
     set(gca,'YDir','norm'); 
     title('Deleting Small Noise by connectivity')
 end
-
-
-% SE = strel('line',3,0);
-% k = imerode(k,SE);
-% k = imdilate(k,SE);
-% 
-% if display == 1
-%     figure;
-%     imshow(k);
-%     set(gca,'YDir','norm'); 
-%     title('Deleting Small Noise horizantally')
-% end
-% 
-% 
-% SE = strel('rectangle',[2 2]);
-% k = imerode(k,SE);
-% k = imdilate(k,SE);
-% 
-% if display == 1
-%     figure;
-%     imshow(k);
-%     set(gca,'YDir','norm'); 
-%     title('Deleting Small Noise vertically')
-% end
-
 
 %Delete large vertical noise
 for c = 1: size(k,2);

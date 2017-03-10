@@ -4,8 +4,8 @@ clc;
 d='ROF_CODAR_20160502_4350_ch0.mat';
 load(d);
 k = zeros(size(rngmap));
-time1 = 620;
-time2 = 1380;
+time1 = 620;%When evening starts
+time2 = 1380;%When morning starts
 [gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap]=SperateDayandNight(0,time1,time2,d);
 
 %Day
