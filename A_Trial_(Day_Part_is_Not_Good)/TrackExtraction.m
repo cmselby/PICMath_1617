@@ -1,4 +1,4 @@
-function [k]=TrackExtraction(displayoption,extractionoption,data,dusktime,dawntime,nightcof,daycof)
+function [k]=TrackExtraction(displayoption,extractionoption,data,dusktime,dawntime,nightcof,daycof,gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap)
 %function [k]=TrackExtraction(displayoption,data,dusktime,dawntime,extractionoption)
 %Extract tracks in the given data and ouput a binary image to demonstrate
 %time and height of tracks
@@ -57,9 +57,6 @@ if display == 1;
 else
     showInitialData = 0;
 end
-
-%Load the Image
-[gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap]=SperateDayandNight(showInitialData,time1,time2,d);
 
 %Initialize variables
 if extraction == 0;
