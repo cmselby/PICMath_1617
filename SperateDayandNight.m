@@ -8,19 +8,22 @@ day_rngmap=rngmap(1:size(rngmap,1),1:time);
 night_rngmap=rngmap(1:size(rngmap,1),time:size(rngmap,2));
 
 figure;
-title('Day Map');
 set(0,'DefaultFigureColormap',feval('gray'));
 imagesc(day_rngmap);
+title('Day Map');
+set(gca,'YDir','norm');  
 
 figure;
-title('Night Map');
 set(0,'DefaultFigureColormap',feval('gray'));
 imagesc(night_rngmap);
+title('Night Map');
+set(gca,'YDir','norm');  
 
 sobelGradient = imgradient(day_rngmap);
 figure
 imshow(sobelGradient,[])
 title('Sobel Gradient Magnitude')
+set(gca,'YDir','norm');  
 
 hy = -fspecial('sobel')
 hx = hy'
@@ -32,8 +35,10 @@ smoothGradient = imgradient(smoothImage,'CentralDifference');
 figure
 imshow(smoothGradient,[])
 title('Smoothed Gradient Magnitude')
+set(gca,'YDir','norm');  
 
 B = 1/10*ones(10,1);
 out = filter(B,1,smoothGradient);
 figure 
 imagesc(out);
+set(gca,'YDir','norm');  
