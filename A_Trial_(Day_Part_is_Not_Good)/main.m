@@ -4,8 +4,8 @@ close all;
 %Initialize variables
 mintime = 15; %minimum time last for a track (unit:minutes)
 d='ROF_CODAR_20160502_4350_ch0.mat';
-time1 = 620;%When evening starts
-time2 = 1380;%When morning starts
+time1 = 620; %When evening starts
+time2 = 1380; %When morning starts
 nightcof = 0.8; %Use for threshold, please see "TrackExtraction.m"
 daycof = 0.9; %Use for threshold, please see "TrackExtraction.m"
 
