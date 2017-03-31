@@ -11,14 +11,21 @@ daycof = 0.9; %Use for threshold, please see "TrackExtraction.m"
 
 load(d);
 k = zeros(size(rngmap));
-[gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap,day_rngmap,night_rngmap,dawn_rngmap]=SperateDayandNight(0,time1,time2,d);
+day_rngmap=rngmap(:,1:time1);
+night_rngmap=rngmap(:,time1+1:time2);
+dawn_rngmap=rngmap(:,time2+1:end);
+
+gray_rngmap=mat2gray(rngmap);
+gray_day_rngmap=mat2gray(day_rngmap);
+gray_night_rngmap=mat2gray(night_rngmap);
+gray_dawn_rngmap=mat2gray(dawn_rngmap);
 
 %Day
-[k_day]=TrackExtraction(0,1,d,time1,time2,nightcof,daycof);
+[k_day]=TrackExtraction(0,1,d,time1,time2,nightcof,daycof,gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap);
 %Night
-[k_night]=TrackExtraction(0,2,d,time1,time2,nightcof,daycof);
+[k_night]=TrackExtraction(0,2,d,time1,time2,nightcof,daycof,gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap);
 %Dawn
-[k_dawn]=TrackExtraction(0,3,d,time1,time2,nightcof,daycof);
+[k_dawn]=TrackExtraction(0,3,d,time1,time2,nightcof,daycof,gray_rngmap,gray_day_rngmap,gray_night_rngmap,gray_dawn_rngmap);
 
 %Combining three parts together
 k = zeros(size(rngmap));
