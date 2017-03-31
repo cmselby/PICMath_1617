@@ -1,4 +1,4 @@
-function [k]=TrackExtraction(displayoption,extractionoption,data,dusktime,dawntime)
+function [k]=TrackExtraction(displayoption,extractionoption,data,dusktime,dawntime,nightcof,daycof)
 %function [k]=TrackExtraction(displayoption,data,dusktime,dawntime,extractionoption)
 %Extract tracks in the given data and ouput a binary image to demonstrate
 %time and height of tracks
@@ -9,6 +9,8 @@ function [k]=TrackExtraction(displayoption,extractionoption,data,dusktime,dawnti
 %data - default is 'ROF_CODAR_20160502_4350_ch0.mat'
 %extractionoption - 0 for the whole data, 1 for day part, 2 for night part,
 % and 3 for dawn part,default:2
+%nightcof - a coffecient from 0 to 1 that thresholds night part image
+%daycof - a coffecient from 0 to 1 that thresholds day part image
 %Ouput
 %k - a binary image to demonstrate time and height of tracks
 
@@ -42,8 +44,13 @@ else
     time2 = dawntime;
 end
 
-close all
-clc
+if ~exist('nightcof')
+    nightcof = 0.8;
+end
+
+if ~exist('daycof')
+    daycof = 0.9;
+end
 
 if display == 1;
     showInitialData = extractionoption;
@@ -57,23 +64,26 @@ end
 %Initialize variables
 if extraction == 0;
     map = gra_rngmap;
-elseif extraction == 1;
-        map = gray_day_rngmap;
-elseif extraction == 2;
+end
+if extraction == 1;
+   map = gray_day_rngmap;
+end
+if extraction == 2;
     map = gray_night_rngmap;
-elseif extraction == 3;
+end
+if extraction == 3;
     map = gray_dawn_rngmap;
 end
 
 k = zeros(size(map));
 
 if extraction == 2
-    coeff = 0.8;
+    coeff = nightcof;
 else
-    coeff = 0.9;
+    coeff = daycof;
 end
 
-%Find the thresholding value
+%Find the thresholding value(Find the location of "Surface Wave")
 A=map.';
 [value,pos] = max(var(A));
 thresholding = mean(mean(A(:,pos-2:pos+2)));
@@ -87,7 +97,7 @@ for i = 1: size(map,1);
     end
 end
 
-if display == 1
+if display ~=0
     figure;
     imshow(k);
     set(gca,'YDir','norm'); 
@@ -102,7 +112,7 @@ for in=1:size(idx,2)
     k(CC.PixelIdxList{idx(in)}) = 0;
 end
 
-if display == 1
+if display ~=0
     figure;
     imshow(k);
     set(gca,'YDir','norm'); 
@@ -122,38 +132,48 @@ for c = 1: size(k,2);
     end
 end
 
-if display == 1
+if display ~=0
     figure;
     imshow(k);
     set(gca,'YDir','norm'); 
     title('Deleting Vertical Noise')
 end
 
-%Do erodsion and dialation again
-SE1 = strel('rectangle',[2 2]);
-SE2 = strel('line',2,0);
-SE3 = strel('line',2,90);
-SE4 = strel('line',3,45);
-SE5 = strel('line',3,325);
-
-if extraction == 2
-    k = imerode(k,SE1);
-    k = imdilate(k,SE1);
-    k = imerode(k,SE2);
-    k = imdilate(k,SE2);
-else
-    k = imerode(k,SE1);
-    k = imdilate(k,SE1);
-end
-k = imdilate(k,SE2);
 CC = bwconncomp(k);
 numPixels = cellfun(@numel,CC.PixelIdxList);
-[biggest,idx] = find(numPixels<7);
+[biggest,idx] = find(numPixels<10);
 for in=1:size(idx,2)
     k(CC.PixelIdxList{idx(in)}) = 0;
 end
 
-if display == 1
+if display ~=0
+    figure;
+    imshow(k);
+    set(gca,'YDir','norm'); 
+    title('Extra')
+end
+
+%Do erodsion and dialation again
+SE1 = strel('rectangle',[2 2]);
+SE2 = strel('line',2,0);
+SE6 = strel('line',10,0);
+SE3 = strel('line',2,90);
+SE4 = strel('line',3,45);
+SE5 = strel('line',3,325);
+
+k = imdilate(k,SE1);
+k = imerode(k,SE1);
+k = imerode(k,SE2);
+k = imdilate(k,SE5);
+
+CC = bwconncomp(k);
+numPixels = cellfun(@numel,CC.PixelIdxList);
+[biggest,idx] = find(numPixels<8);
+for in=1:size(idx,2)
+    k(CC.PixelIdxList{idx(in)}) = 0;
+end
+
+if display ~=0
     figure;
     imshow(k);
     set(gca,'YDir','norm'); 

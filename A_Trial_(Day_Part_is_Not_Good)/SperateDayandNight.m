@@ -40,8 +40,8 @@ load(d);
 length = size(rngmap,1);
 
 day_rngmap=rngmap(1:length,1:time1);
-night_rngmap=rngmap(1:length,time1:time2);
-dawn_rngmap=rngmap(1:length,time2:size(rngmap,2));
+night_rngmap=rngmap(1:length,time1+1:time2);
+dawn_rngmap=rngmap(1:length,time2+1:size(rngmap,2));
 
 gray_rngmap=mat2gray(rngmap);
 gray_day_rngmap=mat2gray(day_rngmap);
