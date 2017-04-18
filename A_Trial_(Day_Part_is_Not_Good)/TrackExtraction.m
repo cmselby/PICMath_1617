@@ -82,7 +82,7 @@ end
 
 %Find the thresholding value(Find the location of "Surface Wave")
 A=map.';
-[value,pos] = max(var(A));
+[value,pos] = max(mean(A));
 thresholding = mean(mean(A(:,pos-2:pos+2)));
 
 %Thresholding
@@ -98,13 +98,17 @@ if display ~=0
     figure;
     imshow(k);
     set(gca,'YDir','norm'); 
-    title('Simple Filtering')
+    if extraction == 1
+        title('Day Part Result After Thresholding');
+    elseif extraction ==2
+        title('Night Part Result After Thresholding');
+    end
 end
 
 %Use connectivity,erodion and dialation to delete small noise
 CC = bwconncomp(k);
 numPixels = cellfun(@numel,CC.PixelIdxList);
-[biggest,idx] = find(numPixels<3);
+[biggest,idx] = find(numPixels<10);
 for in=1:size(idx,2)
     k(CC.PixelIdxList{idx(in)}) = 0;
 end
@@ -133,21 +137,12 @@ if display ~=0
     figure;
     imshow(k);
     set(gca,'YDir','norm'); 
-    title('Deleting Vertical Noise')
-end
-
-CC = bwconncomp(k);
-numPixels = cellfun(@numel,CC.PixelIdxList);
-[biggest,idx] = find(numPixels<10);
-for in=1:size(idx,2)
-    k(CC.PixelIdxList{idx(in)}) = 0;
-end
-
-if display ~=0
-    figure;
-    imshow(k);
-    set(gca,'YDir','norm'); 
-    title('Extra')
+    if extraction == 1
+        title('Day Part Result After Deleting Vertical Noise');
+    elseif extraction ==2
+        title('Night Part Result After Deleting Vertical Noise');
+    end
+    %title('Day Part Result After Deleting Vertical Noise')
 end
 
 %Do erodsion and dialation again
@@ -174,7 +169,12 @@ if display ~=0
     figure;
     imshow(k);
     set(gca,'YDir','norm'); 
-	title('Clean Image');
+    if extraction == 1
+        title('Day Part Result After Erosion and Dilation');
+    elseif extraction ==2
+        title('Night Part Result After Erosion and Dilation');
+    end
+	%title('Clean Image');
 end
 
 end
