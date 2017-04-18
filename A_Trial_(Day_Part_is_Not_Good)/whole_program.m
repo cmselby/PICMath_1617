@@ -31,17 +31,17 @@ k(:,time1+1:time1 + size(k_night,2)) = k_night;
 k(:,time2+1:end) = k_dawn;
 
 [table,picture] = TrackOutput(k,rngmap,mintime);
-
-save('TrackExtraction.mat','picture','table','t','rngmap');
+picture=picture.*gray_rngmap;
+save('TrackExtraction.mat','picture','table','rngmap');
 
 %Display input data and final results
-figure;
-imagesc(t,range(rangeix),rngmap); 
-set(gca,'YDir','norm'); 
-title('Data')
-
-figure;
-imshow(picture);
-set(gca,'YDir','norm'); 
-title('Result');
+% figure;
+% imagesc(t,range(rangeix),rngmap); 
+% set(gca,'YDir','norm'); 
+% title('Data')
+% 
+% figure;
+% imshow(picture);
+% set(gca,'YDir','norm'); 
+% title('Result');
 end
